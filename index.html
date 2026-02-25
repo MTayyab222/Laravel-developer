@@ -1,0 +1,1283 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>M.Tayyab — Laravel Developer</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      :root {
+        --bg: #0a0c0f;
+        --surface: #111318;
+        --border: #1e2229;
+        --accent: #c8a96e;
+        --accent2: #4f8ef7;
+        --text: #e8e4dc;
+        --muted: #6b7280;
+        --card: #13161c;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: "DM Sans", sans-serif;
+        font-weight: 300;
+        overflow-x: hidden;
+      }
+
+      /* Noise overlay */
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+        pointer-events: none;
+        z-index: 9999;
+        opacity: 0.5;
+      }
+
+      /* NAV */
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 100;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1.5rem 4rem;
+        border-bottom: 1px solid var(--border);
+        background: rgba(10, 12, 15, 0.85);
+        backdrop-filter: blur(12px);
+      }
+
+      .nav-logo {
+        font-family: "Playfair Display", serif;
+        font-size: 1.4rem;
+        color: var(--accent);
+        letter-spacing: 0.02em;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 2.5rem;
+        list-style: none;
+      }
+
+      .nav-links a {
+        color: var(--muted);
+        text-decoration: none;
+        font-family: "DM Mono", monospace;
+        font-size: 0.78rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        transition: color 0.2s;
+      }
+
+      .nav-links a:hover {
+        color: var(--accent);
+      }
+
+      /* HERO */
+      .hero {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        padding: 8rem 4rem 4rem;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero-bg-circle {
+        position: absolute;
+        width: 600px;
+        height: 600px;
+        background: radial-gradient(
+          circle,
+          rgba(200, 169, 110, 0.08) 0%,
+          transparent 70%
+        );
+        right: -100px;
+        top: 50%;
+        transform: translateY(-50%);
+        border-radius: 50%;
+        pointer-events: none;
+      }
+
+      .hero-bg-circle2 {
+        position: absolute;
+        width: 400px;
+        height: 400px;
+        background: radial-gradient(
+          circle,
+          rgba(79, 142, 247, 0.06) 0%,
+          transparent 70%
+        );
+        left: 200px;
+        bottom: 0;
+        border-radius: 50%;
+        pointer-events: none;
+      }
+
+      .hero-content {
+        max-width: 780px;
+        position: relative;
+        z-index: 1;
+      }
+
+      .hero-tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-family: "DM Mono", monospace;
+        font-size: 0.72rem;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: var(--accent);
+        border: 1px solid rgba(200, 169, 110, 0.3);
+        padding: 0.4rem 1rem;
+        border-radius: 2px;
+        margin-bottom: 2rem;
+        animation: fadeUp 0.8s ease both;
+      }
+
+      .hero-tag::before {
+        content: "";
+        width: 6px;
+        height: 6px;
+        background: var(--accent);
+        border-radius: 50%;
+        animation: pulse 2s infinite;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.3;
+        }
+      }
+
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .hero h1 {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(3.5rem, 7vw, 6rem);
+        line-height: 1.05;
+        font-weight: 400;
+        margin-bottom: 0.5rem;
+        animation: fadeUp 0.8s 0.1s ease both;
+      }
+
+      .hero h1 em {
+        font-style: italic;
+        color: var(--accent);
+      }
+
+      .hero-sub {
+        font-family: "DM Mono", monospace;
+        font-size: 1rem;
+        color: var(--muted);
+        margin-bottom: 2rem;
+        letter-spacing: 0.05em;
+        animation: fadeUp 0.8s 0.2s ease both;
+      }
+
+      .hero-desc {
+        font-size: 1.1rem;
+        line-height: 1.8;
+        color: rgba(232, 228, 220, 0.7);
+        max-width: 560px;
+        margin-bottom: 3rem;
+        animation: fadeUp 0.8s 0.3s ease both;
+      }
+
+      .hero-cta {
+        display: flex;
+        gap: 1.2rem;
+        flex-wrap: wrap;
+        animation: fadeUp 0.8s 0.4s ease both;
+      }
+
+      .btn-primary {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: var(--accent);
+        color: #0a0c0f;
+        padding: 0.85rem 2rem;
+        font-family: "DM Mono", monospace;
+        font-size: 0.8rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        text-decoration: none;
+        font-weight: 500;
+        border-radius: 2px;
+        transition: all 0.2s;
+      }
+
+      .btn-primary:hover {
+        background: #dbb97e;
+        transform: translateY(-1px);
+      }
+
+      .btn-ghost {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        border: 1px solid var(--border);
+        color: var(--text);
+        padding: 0.85rem 2rem;
+        font-family: "DM Mono", monospace;
+        font-size: 0.8rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        text-decoration: none;
+        border-radius: 2px;
+        transition: all 0.2s;
+      }
+
+      .btn-ghost:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+      }
+
+      /* STATS BAR */
+      .stats-bar {
+        border-top: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
+        background: var(--surface);
+        display: flex;
+        justify-content: center;
+        gap: 0;
+      }
+
+      .stat {
+        padding: 2rem 4rem;
+        text-align: center;
+        border-right: 1px solid var(--border);
+        flex: 1;
+      }
+      .stat:last-child {
+        border-right: none;
+      }
+
+      .stat-num {
+        font-family: "Playfair Display", serif;
+        font-size: 2.5rem;
+        color: var(--accent);
+        display: block;
+      }
+
+      .stat-label {
+        font-family: "DM Mono", monospace;
+        font-size: 0.7rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin-top: 0.3rem;
+      }
+
+      /* SECTIONS */
+      section {
+        padding: 6rem 4rem;
+      }
+
+      .section-header {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        margin-bottom: 4rem;
+      }
+
+      .section-num {
+        font-family: "DM Mono", monospace;
+        font-size: 0.7rem;
+        color: var(--accent);
+        letter-spacing: 0.1em;
+        opacity: 0.7;
+      }
+
+      .section-title {
+        font-family: "Playfair Display", serif;
+        font-size: 2.5rem;
+        font-weight: 400;
+      }
+
+      .section-line {
+        flex: 1;
+        height: 1px;
+        background: var(--border);
+      }
+
+      /* SKILLS */
+      .skills-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1px;
+        background: var(--border);
+        border: 1px solid var(--border);
+      }
+
+      .skill-card {
+        background: var(--card);
+        padding: 2.5rem;
+        position: relative;
+        overflow: hidden;
+        transition: background 0.3s;
+      }
+
+      .skill-card:hover {
+        background: #181c24;
+      }
+
+      .skill-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 3px;
+        height: 0;
+        background: var(--accent);
+        transition: height 0.3s;
+      }
+
+      .skill-card:hover::before {
+        height: 100%;
+      }
+
+      .skill-icon {
+        font-size: 2rem;
+        margin-bottom: 1.2rem;
+        display: block;
+      }
+
+      .skill-name {
+        font-family: "Playfair Display", serif;
+        font-size: 1.25rem;
+        margin-bottom: 0.7rem;
+      }
+
+      .skill-desc {
+        font-size: 0.88rem;
+        color: var(--muted);
+        line-height: 1.7;
+      }
+
+      .skill-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+        margin-top: 1.2rem;
+      }
+
+      .tag {
+        font-family: "DM Mono", monospace;
+        font-size: 0.65rem;
+        letter-spacing: 0.08em;
+        color: var(--accent);
+        border: 1px solid rgba(200, 169, 110, 0.25);
+        padding: 0.2rem 0.6rem;
+        border-radius: 1px;
+      }
+
+      /* PROJECTS */
+      .projects-list {
+        display: flex;
+        flex-direction: column;
+        gap: 1px;
+        background: var(--border);
+        border: 1px solid var(--border);
+      }
+
+      .project-item {
+        background: var(--card);
+        padding: 2.5rem 3rem;
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        gap: 2.5rem;
+        align-items: start;
+        transition: background 0.2s;
+        cursor: default;
+      }
+
+      .project-item:hover {
+        background: #181c24;
+      }
+
+      .project-num {
+        font-family: "DM Mono", monospace;
+        font-size: 0.7rem;
+        color: var(--muted);
+        padding-top: 0.3rem;
+      }
+
+      .project-title {
+        font-family: "Playfair Display", serif;
+        font-size: 1.35rem;
+        margin-bottom: 0.6rem;
+      }
+
+      .project-desc {
+        font-size: 0.9rem;
+        color: var(--muted);
+        line-height: 1.7;
+        max-width: 580px;
+      }
+
+      .project-meta {
+        text-align: right;
+      }
+
+      .project-year {
+        font-family: "DM Mono", monospace;
+        font-size: 0.7rem;
+        color: var(--accent);
+        display: block;
+        margin-bottom: 0.5rem;
+      }
+
+      .project-stack {
+        font-family: "DM Mono", monospace;
+        font-size: 0.65rem;
+        color: var(--muted);
+        letter-spacing: 0.05em;
+      }
+
+      /* EXPERIENCE */
+      .exp-list {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+      }
+
+      .exp-item {
+        display: grid;
+        grid-template-columns: 200px 1fr;
+        gap: 3rem;
+        padding: 2.5rem;
+        border: 1px solid var(--border);
+        background: var(--card);
+        position: relative;
+        transition: border-color 0.3s;
+      }
+
+      .exp-item:hover {
+        border-color: rgba(200, 169, 110, 0.3);
+      }
+
+      .exp-period {
+        font-family: "DM Mono", monospace;
+        font-size: 0.72rem;
+        color: var(--accent);
+        letter-spacing: 0.08em;
+        padding-top: 0.25rem;
+      }
+
+      .exp-role {
+        font-family: "Playfair Display", serif;
+        font-size: 1.2rem;
+        margin-bottom: 0.3rem;
+      }
+
+      .exp-company {
+        font-family: "DM Mono", monospace;
+        font-size: 0.75rem;
+        color: var(--muted);
+        margin-bottom: 1rem;
+        letter-spacing: 0.06em;
+      }
+
+      .exp-points {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      .exp-points li {
+        font-size: 0.88rem;
+        color: rgba(232, 228, 220, 0.7);
+        line-height: 1.6;
+        padding-left: 1rem;
+        position: relative;
+      }
+
+      .exp-points li::before {
+        content: "—";
+        position: absolute;
+        left: 0;
+        color: var(--accent);
+        font-size: 0.7rem;
+      }
+
+      /* WHY ME */
+      .why-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1px;
+        background: var(--border);
+        border: 1px solid var(--border);
+        margin-bottom: 4rem;
+      }
+
+      .why-card {
+        background: var(--card);
+        padding: 2.5rem;
+      }
+
+      .why-num {
+        font-family: "Playfair Display", serif;
+        font-size: 3rem;
+        color: rgba(200, 169, 110, 0.15);
+        line-height: 1;
+        margin-bottom: 1rem;
+      }
+
+      .why-title {
+        font-family: "Playfair Display", serif;
+        font-size: 1.2rem;
+        margin-bottom: 0.7rem;
+      }
+
+      .why-desc {
+        font-size: 0.88rem;
+        color: var(--muted);
+        line-height: 1.7;
+      }
+
+      /* CONTACT */
+      .contact-section {
+        background: var(--surface);
+        border-top: 1px solid var(--border);
+      }
+
+      .contact-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4rem;
+        align-items: center;
+      }
+
+      .contact-left h2 {
+        font-family: "Playfair Display", serif;
+        font-size: 3rem;
+        font-weight: 400;
+        line-height: 1.1;
+        margin-bottom: 1.5rem;
+      }
+
+      .contact-left h2 em {
+        font-style: italic;
+        color: var(--accent);
+      }
+
+      .contact-left p {
+        font-size: 0.95rem;
+        color: var(--muted);
+        line-height: 1.8;
+        margin-bottom: 2.5rem;
+      }
+
+      .contact-links {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .contact-link {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 1.2rem 1.5rem;
+        border: 1px solid var(--border);
+        background: var(--card);
+        text-decoration: none;
+        color: var(--text);
+        transition: all 0.2s;
+        border-radius: 2px;
+      }
+
+      .contact-link:hover {
+        border-color: var(--accent);
+        background: rgba(200, 169, 110, 0.05);
+      }
+
+      .contact-link-icon {
+        width: 36px;
+        height: 36px;
+        background: rgba(200, 169, 110, 0.1);
+        border-radius: 2px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1rem;
+        flex-shrink: 0;
+      }
+
+      .contact-link-text {
+        font-family: "DM Mono", monospace;
+        font-size: 0.8rem;
+        letter-spacing: 0.05em;
+      }
+      .contact-link-label {
+        font-size: 0.72rem;
+        color: var(--muted);
+        font-family: "DM Mono", monospace;
+      }
+
+      .contact-right {
+        padding: 3rem;
+        border: 1px solid var(--border);
+        background: var(--card);
+      }
+
+      .contact-right h3 {
+        font-family: "Playfair Display", serif;
+        font-size: 1.5rem;
+        margin-bottom: 2rem;
+      }
+
+      .form-group {
+        margin-bottom: 1.5rem;
+      }
+
+      .form-group label {
+        display: block;
+        font-family: "DM Mono", monospace;
+        font-size: 0.7rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin-bottom: 0.6rem;
+      }
+
+      .form-group input,
+      .form-group textarea {
+        width: 100%;
+        background: var(--bg);
+        border: 1px solid var(--border);
+        color: var(--text);
+        padding: 0.85rem 1rem;
+        font-family: "DM Sans", sans-serif;
+        font-size: 0.9rem;
+        border-radius: 2px;
+        transition: border-color 0.2s;
+        outline: none;
+        resize: none;
+      }
+
+      .form-group input:focus,
+      .form-group textarea:focus {
+        border-color: var(--accent);
+      }
+
+      .form-group textarea {
+        height: 120px;
+      }
+
+      /* FOOTER */
+      footer {
+        padding: 2rem 4rem;
+        border-top: 1px solid var(--border);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      footer p {
+        font-family: "DM Mono", monospace;
+        font-size: 0.72rem;
+        color: var(--muted);
+        letter-spacing: 0.05em;
+      }
+
+      /* Scroll animations */
+      .reveal {
+        opacity: 0;
+        transform: translateY(30px);
+        transition:
+          opacity 0.7s ease,
+          transform 0.7s ease;
+      }
+
+      .reveal.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      @media (max-width: 768px) {
+        nav {
+          padding: 1.2rem 1.5rem;
+        }
+        .nav-links {
+          display: none;
+        }
+        .hero {
+          padding: 7rem 1.5rem 3rem;
+        }
+        section {
+          padding: 4rem 1.5rem;
+        }
+        .stats-bar {
+          flex-direction: column;
+        }
+        .stat {
+          border-right: none;
+          border-bottom: 1px solid var(--border);
+        }
+        .project-item {
+          grid-template-columns: 1fr;
+        }
+        .project-meta {
+          text-align: left;
+        }
+        .exp-item {
+          grid-template-columns: 1fr;
+          gap: 0.5rem;
+        }
+        .why-grid {
+          grid-template-columns: 1fr;
+        }
+        .contact-grid {
+          grid-template-columns: 1fr;
+        }
+        footer {
+          flex-direction: column;
+          gap: 0.5rem;
+          text-align: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- NAV -->
+    <nav>
+      <div class="nav-logo">M.Tayyab</div>
+      <ul class="nav-links">
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-bg-circle"></div>
+      <div class="hero-bg-circle2"></div>
+      <div class="hero-content">
+        <div class="hero-tag">Available for Projects</div>
+        <h1>Laravel <em>Developer</em><br />& Backend Engineer</h1>
+        <p class="hero-sub">
+          // CRM Systems · AI Integration · Enterprise Software
+        </p>
+        <p class="hero-desc">
+          I build robust, scalable web applications using Laravel. Specialising
+          in custom CRM architectures, database design, dashboard reporting, and
+          integrating AI-powered features into business software for industries
+          like legal, finance, and healthcare.
+        </p>
+        <div class="hero-cta">
+          <a href="#projects" class="btn-primary">View My Work →</a>
+          <a href="#contact" class="btn-ghost">Let's Talk</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- STATS -->
+    <div class="stats-bar">
+      <div class="stat reveal">
+        <span class="stat-num">3+</span>
+        <span class="stat-label">Years Experience</span>
+      </div>
+      <div class="stat reveal">
+        <span class="stat-num">20+</span>
+        <span class="stat-label">Projects Delivered</span>
+      </div>
+      <div class="stat reveal">
+        <span class="stat-num">8+</span>
+        <span class="stat-label">CRM Systems Built</span>
+      </div>
+      <div class="stat reveal">
+        <span class="stat-num">100%</span>
+        <span class="stat-label">Client Satisfaction</span>
+      </div>
+    </div>
+
+    <!-- SKILLS -->
+    <section id="skills">
+      <div class="section-header reveal">
+        <span class="section-num">01</span>
+        <h2 class="section-title">Core Skills</h2>
+        <div class="section-line"></div>
+      </div>
+
+      <div class="skills-grid">
+        <div class="skill-card reveal">
+          <span class="skill-icon">⚙️</span>
+          <div class="skill-name">Laravel & PHP</div>
+          <p class="skill-desc">
+            Deep expertise in Laravel's ecosystem — Eloquent ORM, Artisan,
+            middleware, queues, events, policies, and service containers for
+            enterprise-grade applications.
+          </p>
+          <div class="skill-tags">
+            <span class="tag">Laravel 10/11</span>
+            <span class="tag">Eloquent</span>
+            <span class="tag">PHP 8.x</span>
+            <span class="tag">REST APIs</span>
+          </div>
+        </div>
+
+        <div class="skill-card reveal">
+          <span class="skill-icon">🗄️</span>
+          <div class="skill-name">Database Architecture</div>
+          <p class="skill-desc">
+            Designing scalable database schemas, migrations, and reusable
+            library models that can be accessed and extended across large
+            software systems.
+          </p>
+          <div class="skill-tags">
+            <span class="tag">MySQL</span>
+            <span class="tag">PostgreSQL</span>
+            <span class="tag">Redis</span>
+            <span class="tag">Query Optimisation</span>
+          </div>
+        </div>
+
+        <div class="skill-card reveal">
+          <span class="skill-icon">📊</span>
+          <div class="skill-name">CRM & Dashboard Systems</div>
+          <p class="skill-desc">
+            End-to-end CRM development with dynamic data fields, auto-populated
+            forms, document storage modules, contact management, and real-time
+            dashboard reporting.
+          </p>
+          <div class="skill-tags">
+            <span class="tag">Custom CRM</span>
+            <span class="tag">Reporting</span>
+            <span class="tag">Filament</span>
+            <span class="tag">Livewire</span>
+          </div>
+        </div>
+
+        <div class="skill-card reveal">
+          <span class="skill-icon">🤖</span>
+          <div class="skill-name">AI Integration</div>
+          <p class="skill-desc">
+            Integrating LLMs (OpenAI, Claude API) into software workflows to
+            read structured data, generate intelligent reports, summarise
+            documents, and automate decision support.
+          </p>
+          <div class="skill-tags">
+            <span class="tag">OpenAI API</span>
+            <span class="tag">LLM Prompting</span>
+            <span class="tag">AI Reports</span>
+            <span class="tag">Document Parsing</span>
+          </div>
+        </div>
+
+        <div class="skill-card reveal">
+          <span class="skill-icon">🔐</span>
+          <div class="skill-name">Authentication & Security</div>
+          <p class="skill-desc">
+            Role-based access control, multi-tenant architectures, OAuth, and
+            data encryption suited for compliance-sensitive industries including
+            legal and financial sectors.
+          </p>
+          <div class="skill-tags">
+            <span class="tag">Sanctum</span>
+            <span class="tag">RBAC</span>
+            <span class="tag">Multi-tenant</span>
+            <span class="tag">GDPR</span>
+          </div>
+        </div>
+
+        <div class="skill-card reveal">
+          <span class="skill-icon">🚀</span>
+          <div class="skill-name">DevOps & Deployment</div>
+          <p class="skill-desc">
+            Cloud deployment, CI/CD pipelines, server configuration, and
+            performance optimisation to ensure software is production-ready and
+            maintainable at scale.
+          </p>
+          <div class="skill-tags">
+            <span class="tag">AWS / DigitalOcean</span>
+            <span class="tag">Docker</span>
+            <span class="tag">GitHub Actions</span>
+            <span class="tag">Forge</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section
+      id="projects"
+      style="
+        background: var(--surface);
+        border-top: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
+      "
+    >
+      <div class="section-header reveal">
+        <span class="section-num">02</span>
+        <h2 class="section-title">Selected Projects</h2>
+        <div class="section-line"></div>
+      </div>
+
+      <div class="projects-list">
+        <div class="project-item reveal">
+          <div class="project-num">01</div>
+          <div>
+            <div class="project-title">Legal Case Management CRM</div>
+            <p class="project-desc">
+              Built a comprehensive CRM for a law firm handling personal injury
+              claims. Included dynamic case fields, auto-populated claim forms,
+              document vault with version control, contact & client management,
+              and a reporting dashboard with case pipeline analytics. Integrated
+              AI to summarise medical records and generate initial claim reports
+              from structured intake data.
+            </p>
+            <div class="skill-tags" style="margin-top: 1rem">
+              <span class="tag">Laravel</span><span class="tag">MySQL</span
+              ><span class="tag">Livewire</span
+              ><span class="tag">OpenAI API</span
+              ><span class="tag">S3 Storage</span>
+            </div>
+          </div>
+          <div class="project-meta">
+            <span class="project-year">2024</span>
+            <div class="project-stack">Laravel · AI</div>
+          </div>
+        </div>
+
+        <div class="project-item reveal">
+          <div class="project-num">02</div>
+          <div>
+            <div class="project-title">
+              Insurance Claims Processing Platform
+            </div>
+            <p class="project-desc">
+              Developed a multi-tenant SaaS platform for insurance brokers to
+              intake, track and process claims. Built reusable database model
+              libraries for claimant profiles, policy data, and correspondence
+              logs. Dashboards provided real-time KPIs, claim stage funnels, and
+              exportable compliance reports.
+            </p>
+            <div class="skill-tags" style="margin-top: 1rem">
+              <span class="tag">Laravel</span><span class="tag">Filament</span
+              ><span class="tag">PostgreSQL</span
+              ><span class="tag">Multi-tenant</span
+              ><span class="tag">REST API</span>
+            </div>
+          </div>
+          <div class="project-meta">
+            <span class="project-year">2023</span>
+            <div class="project-stack">Laravel · SaaS</div>
+          </div>
+        </div>
+
+        <div class="project-item reveal">
+          <div class="project-num">03</div>
+          <div>
+            <div class="project-title">Client Onboarding & Document Portal</div>
+            <p class="project-desc">
+              Created an onboarding portal for a professional services firm
+              where intake forms prepopulate standard document templates.
+              Clients upload supporting documents which are parsed and stored in
+              categorised, searchable libraries. Staff dashboards display
+              completion progress and trigger follow-up workflows automatically.
+            </p>
+            <div class="skill-tags" style="margin-top: 1rem">
+              <span class="tag">Laravel</span><span class="tag">Vue.js</span
+              ><span class="tag">PDF Generation</span
+              ><span class="tag">OCR</span><span class="tag">AWS S3</span>
+            </div>
+          </div>
+          <div class="project-meta">
+            <span class="project-year">2023</span>
+            <div class="project-stack">Laravel · Vue</div>
+          </div>
+        </div>
+
+        <div class="project-item reveal">
+          <div class="project-num">04</div>
+          <div>
+            <div class="project-title">AI-Powered Report Generation Engine</div>
+            <p class="project-desc">
+              Built a standalone module that reads structured data from a CRM,
+              sends it to an LLM via API, and returns formatted professional
+              reports in PDF. Configurable templates allow different report
+              types — summaries, risk assessments, and chronological case
+              histories — all auto-generated with a single click.
+            </p>
+            <div class="skill-tags" style="margin-top: 1rem">
+              <span class="tag">Laravel</span><span class="tag">OpenAI</span
+              ><span class="tag">Dompdf</span><span class="tag">Queue Jobs</span
+              ><span class="tag">Webhooks</span>
+            </div>
+          </div>
+          <div class="project-meta">
+            <span class="project-year">2024</span>
+            <div class="project-stack">AI · Laravel</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EXPERIENCE -->
+    <section id="experience">
+      <div class="section-header reveal">
+        <span class="section-num">03</span>
+        <h2 class="section-title">Experience</h2>
+        <div class="section-line"></div>
+      </div>
+
+      <div class="exp-list">
+        <div class="exp-item reveal">
+          <div class="exp-period">2024 — Present</div>
+          <div>
+            <div class="exp-role">Mid-Level Laravel Developer</div>
+            <div class="exp-company">Freelance / Independent Contractor</div>
+            <ul class="exp-points">
+              <li>
+                Delivering custom Laravel-based CRM systems for legal,
+                insurance, and professional service clients across the UK and
+                Middle East.
+              </li>
+              <li>
+                Architecting database schemas and reusable model libraries
+                designed for extensibility across large application ecosystems.
+              </li>
+              <li>
+                Integrating OpenAI and Claude APIs to power document
+                intelligence, automated reporting, and data extraction features.
+              </li>
+              <li>
+                Building Filament and Livewire dashboards with real-time
+                analytics, role-based access, and audit trail logging.
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="exp-item reveal">
+          <div class="exp-period">2023 — 2024</div>
+          <div>
+            <div class="exp-role">Junior Laravel Developer</div>
+            <div class="exp-company">Digital Agency — Remote</div>
+            <ul class="exp-points">
+              <li>
+                Contributed to a team building multi-module SaaS platforms using
+                Laravel, Vue.js, and MySQL under Agile sprints.
+              </li>
+              <li>
+                Built and maintained REST APIs consumed by mobile and
+                third-party integrations.
+              </li>
+              <li>
+                Implemented document management modules with cloud storage (S3)
+                and dynamic form generation from database-driven field configs.
+              </li>
+              <li>
+                Wrote comprehensive test suites using PHPUnit and Laravel's
+                testing helpers to maintain 90%+ code coverage on core modules.
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="exp-item reveal">
+          <div class="exp-period">2022 — 2023</div>
+          <div>
+            <div class="exp-role">PHP Developer (Trainee → Junior)</div>
+            <div class="exp-company">Software House — Sukkur, Pakistan</div>
+            <ul class="exp-points">
+              <li>
+                Started with vanilla PHP and quickly transitioned to Laravel,
+                building internal tools and client management portals.
+              </li>
+              <li>
+                Developed CRUD interfaces for business data management and
+                report generation features used by admin teams.
+              </li>
+              <li>
+                Gained hands-on experience with MySQL schema design, Eloquent
+                relationships, and query optimisation.
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHY ME -->
+    <section
+      style="
+        background: var(--surface);
+        border-top: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
+      "
+    >
+      <div class="section-header reveal">
+        <span class="section-num">04</span>
+        <h2 class="section-title">Why Choose Me For This Project</h2>
+        <div class="section-line"></div>
+      </div>
+
+      <div class="why-grid reveal">
+        <div class="why-card">
+          <div class="why-num">01</div>
+          <div class="why-title">I've Built This Before</div>
+          <p class="why-desc">
+            CRM systems for professional services — including legal claim
+            management — are my speciality. I understand the complexity of
+            dynamic data fields, document workflows, and the compliance
+            requirements of sensitive client data.
+          </p>
+        </div>
+        <div class="why-card">
+          <div class="why-num">02</div>
+          <div class="why-title">AI is Already in My Stack</div>
+          <p class="why-desc">
+            Integrating AI into business software isn't a future plan for me —
+            it's work I've already delivered. I've built AI report generation
+            pipelines, document readers, and intelligent data extraction tools
+            within Laravel systems.
+          </p>
+        </div>
+        <div class="why-card">
+          <div class="why-num">03</div>
+          <div class="why-title">I Work Within Existing Codebases</div>
+          <p class="why-desc">
+            I don't need a greenfield project. I'm experienced at onboarding
+            into existing Laravel applications, understanding their structure
+            quickly, and building cleanly within established conventions without
+            breaking what's already there.
+          </p>
+        </div>
+        <div class="why-card">
+          <div class="why-num">04</div>
+          <div class="why-title">You Get Clear Communication</div>
+          <p class="why-desc">
+            I provide regular progress updates, ask the right questions early,
+            and document my work. If you have a presentation with full
+            requirements, I'll review it thoroughly before writing a single line
+            of code.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="contact-section">
+      <div class="contact-grid">
+        <div class="contact-left reveal">
+          <h2>Let's Build<br />Something <em>Powerful</em></h2>
+          <p>
+            I'm ready to review your full project presentation and discuss how I
+            can help you deliver this CRM for your legal clients. Reach out via
+            any channel below.
+          </p>
+
+          <div class="contact-links">
+            <a href="mailto:tayyabkhanbhutto7@gmail.com" class="contact-link">
+              <div class="contact-link-icon">✉️</div>
+              <div>
+                <div class="contact-link-label">Email</div>
+                <div class="contact-link-text">tayyabkhanbhutto7@gmail.com</div>
+              </div>
+            </a>
+            <a
+              href="https://wa.me/923451318262"
+              target="_blank"
+              class="contact-link"
+            >
+              <div class="contact-link-icon">💬</div>
+              <div>
+                <div class="contact-link-label">WhatsApp</div>
+                <div class="contact-link-text">+92 345 131 8262</div>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <div class="contact-right reveal">
+          <h3>Send a Direct Message</h3>
+          <div class="form-group">
+            <label>Your Name</label>
+            <input type="text" placeholder="e.g. John Smith" />
+          </div>
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" placeholder="john@example.com" />
+          </div>
+          <div class="form-group">
+            <label>Project Overview</label>
+            <textarea
+              placeholder="Tell me about your project requirements..."
+            ></textarea>
+          </div>
+          <a
+            href="mailto:tayyabkhanbhutto7@gmail.com"
+            class="btn-primary"
+            style="width: 100%; justify-content: center"
+            >Send Message →</a
+          >
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+      <p>© 2025 M.Tayyab — Laravel Developer</p>
+      <p>Built with intention. Ready to deliver.</p>
+    </footer>
+
+    <script>
+      // Scroll reveal
+      const reveals = document.querySelectorAll(".reveal");
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              e.target.classList.add("visible");
+            }
+          });
+        },
+        { threshold: 0.1 },
+      );
+
+      reveals.forEach((el) => observer.observe(el));
+    </script>
+  </body>
+</html>
